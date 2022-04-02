@@ -1,0 +1,54 @@
+{
+  "sharedDir": "shared",
+  "dependenciesDir": "extern",
+  "info": {
+    "name": "AnyTweaks",
+    "id": "anytweaks",
+    "version": "5.0.0",
+    "url": null,
+    "additionalData": {
+      "overrideSoName": "libanytweaks.so"
+    }
+  },
+  "dependencies": [
+    {
+      "id": "beatsaber-hook",
+      "versionRange": "^3.7.4",
+      "additionalData": {
+        "useRelease": true,
+        "extraFiles": [
+          "src/inline-hook"
+        ]
+      }
+    },
+    {
+      "id": "codegen",
+      "versionRange": "^0.22.0",
+      "additionalData": {
+        "useRelease": true
+      }
+    },
+    {
+      "id": "custom-types",
+      "versionRange": "^0.15.9",
+      "additionalData": {
+        "useRelease": true
+      }
+    },
+    {
+      "id": "questui",
+      "versionRange": "^0.13.5",
+      "additionalData": {
+        "useRelease": true
+      }
+    },
+    {
+      "id": "config-utils",
+      "versionRange": "^0.7.2",
+      "additionalData": {
+        "useRelease": true
+      }
+    }
+  ],
+  "additionalData": {}
+}
