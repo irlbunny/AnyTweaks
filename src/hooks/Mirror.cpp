@@ -41,6 +41,8 @@ MAKE_HOOK_MATCH(
     using namespace UnityEngine;
 
     // HACK: Check if our last current environment was HalloweenEnvironment, reload AssetBundle if so.
+    // Not sure if this is needed anymore since the asset bundle will be unloaded preventing part of this crash in the first place.
+    // TODO: Needs further testing.
     if (currentEnvironment == "HalloweenEnvironment") {
         bNeedsReload = true;
     }
