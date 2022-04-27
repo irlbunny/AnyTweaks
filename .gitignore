@@ -48,8 +48,8 @@ build/
 ndkpath.txt
 *.qmod
 *.zip
-*.txt
 extern/
 Android.mk.backup
 qpm.shared.json
 mod.json
+tombstone_*

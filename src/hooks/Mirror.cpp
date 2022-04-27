@@ -25,9 +25,11 @@ bool IsEnvironmentBlocked() {
     return false;
 }
 
-bool bNeedsReload;
+// Default true makes sure the bundle is loaded on the first check
+bool bNeedsReload = true;
 
-UnityEngine::AssetBundle* assetBundle;
+// Note: this is useless, the asset bundle will always be unloaded.
+//UnityEngine::AssetBundle* assetBundle;
 UnityEngine::Shader* shader;
 
 MAKE_HOOK_MATCH(
@@ -39,15 +41,19 @@ MAKE_HOOK_MATCH(
     using namespace UnityEngine;
 
     // HACK: Check if our last current environment was HalloweenEnvironment, reload AssetBundle if so.
-    if (currentEnvironment == "HalloweenEnvironment") {
-        bNeedsReload = true;
-    }
+    // Not sure if this is needed anymore since the asset bundle will be unloaded preventing part of this crash in the first place.
+    // TODO: Needs further testing.
+//    if (currentEnvironment == "HalloweenEnvironment") {
+//        bNeedsReload = true;
+//    }
     
     currentEnvironment = self->get_gameObject()->get_scene().get_name();
-    if (!assetBundle || bNeedsReload) {
+    if (bNeedsReload) {
         bNeedsReload = false;
-        assetBundle = AssetBundle::LoadFromFile("/sdcard/ModData/com.beatgames.beatsaber/Mods/AnyTweaks/content");
-        shader = reinterpret_cast<Shader*>(assetBundle->LoadAsset("assets/shaders/anymirror.shader"));
+        auto assetBundle = AssetBundle::LoadFromFile("/sdcard/ModData/com.beatgames.beatsaber/Mods/AnyTweaks/content");
+        shader = assetBundle->LoadAsset<Shader*>("assets/shaders/anymirror.shader");
+        // You should always unload asset bundles.
+        assetBundle->Unload(false);
     }
 
     if (!IsEnvironmentBlocked()) {
