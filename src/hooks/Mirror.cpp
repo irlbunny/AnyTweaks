@@ -25,9 +25,11 @@ bool IsEnvironmentBlocked() {
     return false;
 }
 
-bool bNeedsReload;
+// Default true makes sure the bundle is loaded on the first check
+bool bNeedsReload = true;
 
-UnityEngine::AssetBundle* assetBundle;
+// Note: this is useless, the asset bundle will always be unloaded.
+//UnityEngine::AssetBundle* assetBundle;
 UnityEngine::Shader* shader;
 
 MAKE_HOOK_MATCH(
@@ -44,10 +46,12 @@ MAKE_HOOK_MATCH(
     }
     
     currentEnvironment = self->get_gameObject()->get_scene().get_name();
-    if (!assetBundle || bNeedsReload) {
+    if (bNeedsReload) {
         bNeedsReload = false;
-        assetBundle = AssetBundle::LoadFromFile("/sdcard/ModData/com.beatgames.beatsaber/Mods/AnyTweaks/content");
+        auto assetBundle = AssetBundle::LoadFromFile("/sdcard/ModData/com.beatgames.beatsaber/Mods/AnyTweaks/content");
         shader = reinterpret_cast<Shader*>(assetBundle->LoadAsset("assets/shaders/anymirror.shader"));
+        // You should always unload asset bundles.
+        assetBundle->Unload(false);
     }
 
     if (!IsEnvironmentBlocked()) {
