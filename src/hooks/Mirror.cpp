@@ -43,15 +43,15 @@ MAKE_HOOK_MATCH(
     // HACK: Check if our last current environment was HalloweenEnvironment, reload AssetBundle if so.
     // Not sure if this is needed anymore since the asset bundle will be unloaded preventing part of this crash in the first place.
     // TODO: Needs further testing.
-    if (currentEnvironment == "HalloweenEnvironment") {
-        bNeedsReload = true;
-    }
+//    if (currentEnvironment == "HalloweenEnvironment") {
+//        bNeedsReload = true;
+//    }
     
     currentEnvironment = self->get_gameObject()->get_scene().get_name();
     if (bNeedsReload) {
         bNeedsReload = false;
         auto assetBundle = AssetBundle::LoadFromFile("/sdcard/ModData/com.beatgames.beatsaber/Mods/AnyTweaks/content");
-        shader = reinterpret_cast<Shader*>(assetBundle->LoadAsset("assets/shaders/anymirror.shader"));
+        shader = assetBundle->LoadAsset<Shader*>("assets/shaders/anymirror.shader");
         // You should always unload asset bundles.
         assetBundle->Unload(false);
     }

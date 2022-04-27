@@ -47,7 +47,7 @@ if ($all -eq $false) {
 }
 
 if ($self -eq $true) {
-    $command += " | Select-String -pattern `"(anytweaks|AndroidRuntime|CRASH)`""
+    $command += " | Select-String -pattern `"(vent\|v1.0.0|AndroidRuntime|CRASH)`""
 } elseif ($custom -ne "") {
     $pattern = "(" + $custom + "|AndriodRuntime|CRASH)"
     $command += " | Select-String -pattern `"$pattern`""
