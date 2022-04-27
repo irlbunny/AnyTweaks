@@ -5,9 +5,6 @@ include(qpm_defines.cmake)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED 20)
 
-# Makes stuff so much quicker.
-set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
-
 project(${COMPILE_ID})
 
 set(SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
@@ -35,21 +32,21 @@ target_link_libraries(${COMPILE_ID} PRIVATE -llog)
 include(extern.cmake)
 
 add_custom_command(TARGET ${COMPILE_ID} POST_BUILD
-        COMMAND ${CMAKE_STRIP} -d --strip-all "lib${COMPILE_ID}.so" -o "stripped_lib${COMPILE_ID}.so"
-        COMMENT "Strip debug symbols on binary."
-        )
+    COMMAND ${CMAKE_STRIP} -d --strip-all "lib${COMPILE_ID}.so" -o "stripped_lib${COMPILE_ID}.so"
+    COMMENT "Strip debug symbols on binary."
+)
 
 add_custom_command(TARGET ${COMPILE_ID} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E make_directory debug
-        COMMENT "Create directory for debug symbols."
-        )
+    COMMAND ${CMAKE_COMMAND} -E make_directory debug
+    COMMENT "Create directory for debug symbols."
+)
 
 add_custom_command(TARGET ${COMPILE_ID} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E rename lib${COMPILE_ID}.so debug/lib${COMPILE_ID}.so
-        COMMENT "Rename the binary to debug_ since it has debug symbols."
-        )
+    COMMAND ${CMAKE_COMMAND} -E rename lib${COMPILE_ID}.so debug/lib${COMPILE_ID}.so
+    COMMENT "Rename the binary to debug_ since it has debug symbols."
+)
 
 add_custom_command(TARGET ${COMPILE_ID} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E rename stripped_lib${COMPILE_ID}.so lib${COMPILE_ID}.so
-        COMMENT "Rename the stripped binary."
-        )
+    COMMAND ${CMAKE_COMMAND} -E rename stripped_lib${COMPILE_ID}.so lib${COMPILE_ID}.so
+    COMMENT "Rename the stripped binary."
+)
