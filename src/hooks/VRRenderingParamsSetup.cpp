@@ -13,7 +13,7 @@
 #include "UnityEngine/Mathf.hpp"
 #include "UnityEngine/XR/XRSettings.hpp"
 
-SafePtr<GlobalNamespace::VRRenderingParamsSetup> vrRenderingParamsSetup;
+SafePtrUnity<GlobalNamespace::VRRenderingParamsSetup> vrRenderingParamsSetup;
 
 MAKE_HOOK_MATCH(
     VRRenderingParamsSetup_OnEnable,
