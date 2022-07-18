@@ -23,6 +23,9 @@ MAKE_HOOK_MATCH(
     using namespace UnityEngine;
     using namespace UnityEngine::Rendering;
 
+    if (!camera.stereoEnabled || camera.stereoTargetEye != StereoTargetEyeMask.Both)
+        return MainEffectController_ImageEffectControllerCallback(self, src, dest);
+
     // Describe the double wide texture.
     RenderTextureDescriptor doubleWideDesc = src->get_descriptor();
     doubleWideDesc.dimension = TextureDimension::Tex2D;
