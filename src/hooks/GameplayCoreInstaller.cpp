@@ -20,8 +20,8 @@ MAKE_HOOK_MATCH(
 
     if (getAnyTweaksConfig().FpsCounter.GetValue()) {
         FPSCounterUIController* fpsCounterUIController = Object::Instantiate(Resources::FindObjectsOfTypeAll<FPSCounterUIController*>()[0]);
-        if (fpsCounterUIController && fpsCounterUIController->dyn__fpsCounter()) {
-            fpsCounterUIController->dyn__fpsCounter()->set_enabled(true);
+        if (fpsCounterUIController && fpsCounterUIController->fpsCounter) {
+            fpsCounterUIController->fpsCounter->set_enabled(true);
         }
     }
 }

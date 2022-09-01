@@ -1,6 +1,7 @@
 #include "AnyTweaks.hpp"
 
 #include "GlobalNamespace/MainEffectController.hpp"
+#include "UnityEngine/Camera.hpp"
 #include "UnityEngine/Graphics.hpp"
 #include "UnityEngine/Material.hpp"
 #include "UnityEngine/Matrix4x4.hpp"
@@ -9,6 +10,7 @@
 #include "UnityEngine/RenderTextureDescriptor.hpp"
 #include "UnityEngine/RenderTextureFormat.hpp"
 #include "UnityEngine/Shader.hpp"
+#include "UnityEngine/StereoTargetEyeMask.hpp"
 #include "UnityEngine/VRTextureUsage.hpp"
 
 MAKE_HOOK_MATCH(
@@ -22,6 +24,11 @@ MAKE_HOOK_MATCH(
     using namespace GlobalNamespace;
     using namespace UnityEngine;
     using namespace UnityEngine::Rendering;
+    
+    Camera* camera = Camera::get_current();
+    if (!camera->get_stereoEnabled() || camera->get_stereoTargetEye() != StereoTargetEyeMask::Both) {
+        return MainEffectController_ImageEffectControllerCallback(self, src, dest);
+    }
 
     // Describe the double wide texture.
     RenderTextureDescriptor doubleWideDesc = src->get_descriptor();

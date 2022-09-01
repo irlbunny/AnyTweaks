@@ -1,4 +1,4 @@
-#include "ui/ATFlowCoordinator.hpp"
+#include "ui/AnyTweaksFlowCoordinator.hpp"
 #include "AnyTweaks.hpp"
 
 #include "GlobalNamespace/MenuTransitionsHelper.hpp"
@@ -6,11 +6,11 @@
 #include "HMUI/ViewController_AnimationType.hpp"
 #include "UnityEngine/Resources.hpp"
 
-DEFINE_TYPE(AnyTweaks::UI, ATFlowCoordinator);
+DEFINE_TYPE(AnyTweaks::UI, AnyTweaksFlowCoordinator);
 
-bool AnyTweaks::UI::ATFlowCoordinator::bRequireRestart;
+bool AnyTweaks::UI::AnyTweaksFlowCoordinator::bRequireRestart;
 
-void AnyTweaks::UI::ATFlowCoordinator::DidActivate(
+void AnyTweaks::UI::AnyTweaksFlowCoordinator::DidActivate(
     bool firstActivation,
     bool addedToHierarchy,
     bool screenSystemEnabling
@@ -22,16 +22,16 @@ void AnyTweaks::UI::ATFlowCoordinator::DidActivate(
 
         showBackButton = true;
 
-        ATViewController = QuestUI::BeatSaberUI::CreateViewController<AnyTweaks::UI::ATViewController*>();
-        ATViewController->flowCoordinator = this;
+        anyTweaksViewController = QuestUI::BeatSaberUI::CreateViewController<AnyTweaks::UI::AnyTweaksViewController*>();
+        anyTweaksViewController->flowCoordinator = this;
 
         currentViewController = nullptr;
 
-        ProvideInitialViewControllers(ATViewController, nullptr, nullptr, nullptr, nullptr);
+        ProvideInitialViewControllers(anyTweaksViewController, nullptr, nullptr, nullptr, nullptr);
     }
 }
 
-void AnyTweaks::UI::ATFlowCoordinator::BackButtonWasPressed(
+void AnyTweaks::UI::AnyTweaksFlowCoordinator::BackButtonWasPressed(
     HMUI::ViewController* topViewController
 ) {
     using namespace GlobalNamespace;
@@ -40,7 +40,7 @@ void AnyTweaks::UI::ATFlowCoordinator::BackButtonWasPressed(
 
     if (currentViewController) {
         SetTitle(ID, ViewController::AnimationType::In);
-        ReplaceTopViewController(ATViewController, this, this, nullptr, ViewController::AnimationType::Out, ViewController::AnimationDirection::Horizontal);
+        ReplaceTopViewController(anyTweaksViewController, this, this, nullptr, ViewController::AnimationType::Out, ViewController::AnimationDirection::Horizontal);
 
         currentViewController = nullptr;
     } else {
@@ -49,8 +49,8 @@ void AnyTweaks::UI::ATFlowCoordinator::BackButtonWasPressed(
 
             bRequireRestart = false;
 
-            AnyTweaks::UI::ATViewController::bDisableGraphicsButton = false;
-            AnyTweaks::UI::ATViewController::bDisableAdvancedButton = false;
+            AnyTweaks::UI::AnyTweaksViewController::bDisableGraphicsButton = false;
+            AnyTweaks::UI::AnyTweaksViewController::bDisableAdvancedButton = false;
         } else {
             parentFlowCoordinator->DismissFlowCoordinator(this, ViewController::AnimationDirection::Horizontal, nullptr, false);
         }

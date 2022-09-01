@@ -1,7 +1,7 @@
 #include "ui/ExperimentalViewController.hpp"
 #include "AnyTweaks.hpp"
 #include "AnyTweaksConfig.hpp"
-#include "ui/ATFlowCoordinator.hpp"
+#include "ui/AnyTweaksFlowCoordinator.hpp"
 
 DEFINE_TYPE(AnyTweaks::UI, ExperimentalViewController);
 
@@ -15,15 +15,15 @@ void AnyTweaks::UI::ExperimentalViewController::DidActivate(
     if (firstActivation) {
         GameObject* container = QuestUI::BeatSaberUI::CreateScrollableSettingsContainer(get_transform());
 
-        QuestUI::BeatSaberUI::CreateToggle(container->get_transform(), "Oldschool Debris", getAnyTweaksConfig().OldschoolDebris.GetValue(), 
+        QuestUI::BeatSaberUI::CreateToggle(container->get_transform(), "Enhanced Low-Quality Mirror", getAnyTweaksConfig().EnhancedLQMirror.GetValue(), 
             [](bool value) {
-                getAnyTweaksConfig().OldschoolDebris.SetValue(value);
+                getAnyTweaksConfig().EnhancedLQMirror.SetValue(value);
             }
         );
 
         QuestUI::BeatSaberUI::CreateIncrementSetting(container->get_transform(), "Light Brightness", 2, .05f, getAnyTweaksConfig().LightBrightness.GetValue(), 0, 10,
             [](float value) {
-                AnyTweaks::UI::ATFlowCoordinator::bRequireRestart = true;
+                AnyTweaks::UI::AnyTweaksFlowCoordinator::bRequireRestart = true;
 
                 getAnyTweaksConfig().LightBrightness.SetValue(value);
             }

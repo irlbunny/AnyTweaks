@@ -45,7 +45,7 @@ MAKE_HOOK_MATCH(
     }
 
     if (!IsEnvironmentBlocked()) {
-        self->dyn__mirrorMaterial()->set_shader(shader);
+        self->mirrorMaterial->set_shader(shader);
     }
     
     Mirror_OnWillRenderObject(self);
@@ -78,7 +78,7 @@ MAKE_HOOK_MATCH(
 ) {
     MirrorRendererSO_CreateOrUpdateMirrorCamera(self, currentCamera, renderTexture);
     
-    self->dyn__bloomPrePassRenderTexture()->set_name("MirrorBloomRenderTexture");
+    self->bloomPrePassRenderTexture->set_name("MirrorBloomRenderTexture");
 }
 
 MAKE_HOOK_MATCH(

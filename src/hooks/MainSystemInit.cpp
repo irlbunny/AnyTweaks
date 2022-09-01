@@ -25,7 +25,7 @@ MAKE_HOOK_MATCH(
             BloomPrePassBloomTextureEffectSO* bloomPrePassEffect = bloomPrePassEffects[i];
             std::string bloomPrePassEffectName = to_utf8(csstrtostr(bloomPrePassEffect->get_name()));
             if (bloomPrePassEffectName == "BloomPrePassLDBloomTextureEffect") {
-                self->dyn__bloomPrePassEffectContainer()->Init(bloomPrePassEffect);
+                self->bloomPrePassEffectContainer->Init(bloomPrePassEffect);
             }
         }
     }

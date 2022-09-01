@@ -8,11 +8,11 @@
 namespace AnyTweaks {
     namespace Hooks {
         void GameplayCoreInstaller();
+        void LightPairRotationEventEffect();
         void MainEffectController();
         void MainSettingsModelSO();
         void MainSystemInit();
         void Mirror();
-        void NoteDebris();
         void TubeBloomPrePassLight();
         void VRRenderingParamsSetup();
     }

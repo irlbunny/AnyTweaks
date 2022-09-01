@@ -1,7 +1,7 @@
 #include "AnyTweaks.hpp"
 #include "AnyTweaksConfig.hpp"
-#include "ui/ATViewController.hpp"
-#include "ui/ATFlowCoordinator.hpp"
+#include "ui/AnyTweaksViewController.hpp"
+#include "ui/AnyTweaksFlowCoordinator.hpp"
 #include "ui/AdvancedViewController.hpp"
 #include "ui/ExperimentalViewController.hpp"
 #include "ui/GraphicsPresetsViewController.hpp"
@@ -17,12 +17,12 @@
 #include "UnityEngine/RectOffset.hpp"
 #include "UnityEngine/UI/ContentSizeFitter.hpp"
 
-DEFINE_TYPE(AnyTweaks::UI, ATViewController);
+DEFINE_TYPE(AnyTweaks::UI, AnyTweaksViewController);
 
-bool AnyTweaks::UI::ATViewController::bDisableGraphicsButton;
-bool AnyTweaks::UI::ATViewController::bDisableAdvancedButton;
+bool AnyTweaks::UI::AnyTweaksViewController::bDisableGraphicsButton;
+bool AnyTweaks::UI::AnyTweaksViewController::bDisableAdvancedButton;
 
-void AnyTweaks::UI::ATViewController::DidActivate(
+void AnyTweaks::UI::AnyTweaksViewController::DidActivate(
     bool firstActivation,
     bool addedToHierarchy,
     bool screenSystemEnabling
@@ -65,7 +65,7 @@ void AnyTweaks::UI::ATViewController::DidActivate(
     }
 }
 
-UnityEngine::UI::Button* AnyTweaks::UI::ATViewController::CreateUIViewControllerButton(
+UnityEngine::UI::Button* AnyTweaks::UI::AnyTweaksViewController::CreateUIViewControllerButton(
     UnityEngine::Transform* parent,
     std::string title,
     std::string description,
@@ -78,7 +78,7 @@ UnityEngine::UI::Button* AnyTweaks::UI::ATViewController::CreateUIViewController
     HorizontalLayoutGroup* horizontalLayoutGroup = QuestUI::BeatSaberUI::CreateHorizontalLayoutGroup(parent);
     QuestUI::Backgroundable* horizontalLayoutGroupBackgroundable = horizontalLayoutGroup->GetComponent<QuestUI::Backgroundable*>();
     horizontalLayoutGroupBackgroundable->ApplyBackground("panel-top");
-    horizontalLayoutGroupBackgroundable->GetComponentInChildren<ImageView*>()->dyn__skew() = .18f;
+    horizontalLayoutGroupBackgroundable->GetComponentInChildren<ImageView*>()->skew = .18f;
     LayoutElement* horizontalLayoutGroupLayoutElement = horizontalLayoutGroup->GetComponent<LayoutElement*>();
     horizontalLayoutGroupLayoutElement->set_preferredWidth(100);
     horizontalLayoutGroupLayoutElement->set_preferredHeight(15);
@@ -97,7 +97,7 @@ UnityEngine::UI::Button* AnyTweaks::UI::ATViewController::CreateUIViewController
             flowCoordinator->SetTitle(title, ViewController::AnimationType::In);
             flowCoordinator->ReplaceTopViewController(viewController, flowCoordinator, flowCoordinator, nullptr, ViewController::AnimationType::In, ViewController::AnimationDirection::Horizontal);
 
-            reinterpret_cast<AnyTweaks::UI::ATFlowCoordinator*>(flowCoordinator)->currentViewController = viewController;
+            reinterpret_cast<AnyTweaks::UI::AnyTweaksFlowCoordinator*>(flowCoordinator)->currentViewController = viewController;
         }
     );
     QuestUI::BeatSaberUI::SetButtonTextSize(openButton, 5);

@@ -1,7 +1,7 @@
 #include "ui/GraphicsViewController.hpp"
 #include "AnyTweaks.hpp"
 #include "AnyTweaksConfig.hpp"
-#include "ui/ATFlowCoordinator.hpp"
+#include "ui/AnyTweaksFlowCoordinator.hpp"
 
 #include "GlobalNamespace/OVRPlugin.hpp"
 #include "GlobalNamespace/OVRPlugin_SystemHeadset.hpp"
@@ -36,7 +36,7 @@ void AnyTweaks::UI::GraphicsViewController::DidActivate(
         }
         QuestUI::BeatSaberUI::CreateDropdown(container->get_transform(), "Anti-Aliasing", antiAliasingValue, antiAliasingValues,
             [antiAliasingValues](std::string value) {
-                AnyTweaks::UI::ATFlowCoordinator::bRequireRestart = true;
+                AnyTweaks::UI::AnyTweaksFlowCoordinator::bRequireRestart = true;
                 
                 if (value == antiAliasingValues[0]) {
                     getAnyTweaksConfig().AntiAliasing.SetValue(1);
@@ -65,10 +65,11 @@ void AnyTweaks::UI::GraphicsViewController::DidActivate(
             );
         }
         
-        if (getAnyTweaksConfig().UsedGraphicsPresetBefore.GetValue()) {
+        OVRPlugin::SystemHeadset systemHeadsetType = OVRPlugin::GetSystemHeadsetType();
+        if (getAnyTweaksConfig().UsedGraphicsPresetBefore.GetValue() || !(systemHeadsetType == OVRPlugin::SystemHeadset::Oculus_Quest || systemHeadsetType == OVRPlugin::SystemHeadset::Oculus_Quest_2)) {
             QuestUI::BeatSaberUI::CreateToggle(container->get_transform(), "Bloom", getAnyTweaksConfig().Bloom.GetValue(), 
                 [](bool value) {
-                    AnyTweaks::UI::ATFlowCoordinator::bRequireRestart = true;
+                    AnyTweaks::UI::AnyTweaksFlowCoordinator::bRequireRestart = true;
                     
                     getAnyTweaksConfig().Bloom.SetValue(value);
                 }
@@ -78,7 +79,7 @@ void AnyTweaks::UI::GraphicsViewController::DidActivate(
             StringW bloomQualityValue = bloomQualityValues[getAnyTweaksConfig().BloomQuality.GetValue()];
             QuestUI::BeatSaberUI::CreateDropdown(container->get_transform(), "Bloom Quality", bloomQualityValue, bloomQualityValues,
                 [bloomQualityValues](std::string value) {
-                    AnyTweaks::UI::ATFlowCoordinator::bRequireRestart = true;
+                    AnyTweaks::UI::AnyTweaksFlowCoordinator::bRequireRestart = true;
                     
                     if (value == bloomQualityValues[0]) {
                         getAnyTweaksConfig().BloomQuality.SetValue(0);
@@ -92,7 +93,7 @@ void AnyTweaks::UI::GraphicsViewController::DidActivate(
             StringW mirrorValue = mirrorValues[getAnyTweaksConfig().Mirror.GetValue()];
             QuestUI::BeatSaberUI::CreateDropdown(container->get_transform(), "Mirror", mirrorValue, mirrorValues,
                 [mirrorValues](std::string value) {
-                    AnyTweaks::UI::ATFlowCoordinator::bRequireRestart = true;
+                    AnyTweaks::UI::AnyTweaksFlowCoordinator::bRequireRestart = true;
 
                     if (value == mirrorValues[0]) {
                         getAnyTweaksConfig().Mirror.SetValue(0);
@@ -109,7 +110,7 @@ void AnyTweaks::UI::GraphicsViewController::DidActivate(
 
         QuestUI::BeatSaberUI::CreateToggle(container->get_transform(), "Smoke", getAnyTweaksConfig().Smoke.GetValue(), 
             [](bool value) {
-                AnyTweaks::UI::ATFlowCoordinator::bRequireRestart = true;
+                AnyTweaks::UI::AnyTweaksFlowCoordinator::bRequireRestart = true;
 
                 getAnyTweaksConfig().Smoke.SetValue(value);
             }

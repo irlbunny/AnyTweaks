@@ -1,7 +1,7 @@
 #include "ui/GraphicsPresetsViewController.hpp"
 #include "AnyTweaksConfig.hpp"
-#include "ui/ATFlowCoordinator.hpp"
-#include "ui/ATViewController.hpp"
+#include "ui/AnyTweaksFlowCoordinator.hpp"
+#include "ui/AnyTweaksViewController.hpp"
 
 #include "GlobalNamespace/OVRPlugin.hpp"
 #include "GlobalNamespace/OVRPlugin_SystemHeadset.hpp"
@@ -152,10 +152,10 @@ UnityEngine::UI::Button* AnyTweaks::UI::GraphicsPresetsViewController::CreateUIG
 
     return QuestUI::BeatSaberUI::CreateUIButton(parent, buttonText,
         [this, resolution, antiAliasing, refreshRate, bloom, mirror, smoke, cpuLevel, gpuLevel]() {
-            AnyTweaks::UI::ATViewController::bDisableGraphicsButton = resolution.has_value() || antiAliasing.has_value() || refreshRate.has_value() || bloom.has_value() || mirror.has_value() || smoke.has_value();
-            AnyTweaks::UI::ATViewController::bDisableAdvancedButton = cpuLevel.has_value() || gpuLevel.has_value();
+            AnyTweaks::UI::AnyTweaksViewController::bDisableGraphicsButton = resolution.has_value() || antiAliasing.has_value() || refreshRate.has_value() || bloom.has_value() || mirror.has_value() || smoke.has_value();
+            AnyTweaks::UI::AnyTweaksViewController::bDisableAdvancedButton = cpuLevel.has_value() || gpuLevel.has_value();
 
-            AnyTweaks::UI::ATFlowCoordinator::bRequireRestart = AnyTweaks::UI::ATViewController::bDisableGraphicsButton || AnyTweaks::UI::ATViewController::bDisableAdvancedButton;
+            AnyTweaks::UI::AnyTweaksFlowCoordinator::bRequireRestart = AnyTweaks::UI::AnyTweaksViewController::bDisableGraphicsButton || AnyTweaks::UI::AnyTweaksViewController::bDisableAdvancedButton;
 
             if (resolution.has_value()) {
                 getAnyTweaksConfig().Resolution.SetValue(resolution.value());

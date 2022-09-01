@@ -2,7 +2,7 @@
 
 #include "main.hpp"
 
-DECLARE_CLASS_CODEGEN(AnyTweaks::UI, ATViewController, HMUI::ViewController,
+DECLARE_CLASS_CODEGEN(AnyTweaks::UI, AnyTweaksViewController, HMUI::ViewController,
     DECLARE_INSTANCE_FIELD(HMUI::FlowCoordinator*, flowCoordinator);
 
     DECLARE_INSTANCE_FIELD(UnityEngine::UI::Button*, graphicsPresetsButton);

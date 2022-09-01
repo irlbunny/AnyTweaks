@@ -18,10 +18,10 @@ MAKE_HOOK_MATCH(
         originalBloomFogIntensityMultipliers = Dictionary_2<GlobalNamespace::TubeBloomPrePassLight*, float>::New_ctor();
     }
     if (!originalBloomFogIntensityMultipliers->ContainsKey(self)) {
-        originalBloomFogIntensityMultipliers->set_Item(self, self->dyn__bloomFogIntensityMultiplier());
+        originalBloomFogIntensityMultipliers->set_Item(self, self->bloomFogIntensityMultiplier);
     }
 
-    self->dyn__bloomFogIntensityMultiplier() = originalBloomFogIntensityMultipliers->get_Item(self) * getAnyTweaksConfig().LightBrightness.GetValue();
+    self->bloomFogIntensityMultiplier = originalBloomFogIntensityMultipliers->get_Item(self) * getAnyTweaksConfig().LightBrightness.GetValue();
 
     TubeBloomPrePassLight_OnEnable(self);
 }

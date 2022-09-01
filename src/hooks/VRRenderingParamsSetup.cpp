@@ -13,7 +13,7 @@
 #include "UnityEngine/Mathf.hpp"
 #include "UnityEngine/XR/XRSettings.hpp"
 
-SafePtr<GlobalNamespace::VRRenderingParamsSetup> vrRenderingParamsSetup;
+SafePtrUnity<GlobalNamespace::VRRenderingParamsSetup> vrRenderingParamsSetup;
 
 MAKE_HOOK_MATCH(
     VRRenderingParamsSetup_OnEnable,
@@ -33,24 +33,24 @@ void AnyTweaks::VRRenderingParamsSetup::Reload(std::optional<float> vrResolution
 
     // Check if we want to set vrResolutionScale on refresh.
     if (vrResolutionScale.has_value()) {
-        vrRenderingParamsSetup->dyn__vrResolutionScale()->set_value(vrResolutionScale.value());
+        vrRenderingParamsSetup->vrResolutionScale->set_value(vrResolutionScale.value());
     }
-    if (vrRenderingParamsSetup->dyn__vrResolutionScale()->get_value() == 0.0f) {
-        vrRenderingParamsSetup->dyn__vrResolutionScale()->set_value(1.0f);
+    if (vrRenderingParamsSetup->vrResolutionScale->get_value() == 0.0f) {
+        vrRenderingParamsSetup->vrResolutionScale->set_value(1.0f);
     }
-    if (vrRenderingParamsSetup->dyn__menuVRResolutionScaleMultiplier()->get_value() == 0.0f) {
-        vrRenderingParamsSetup->dyn__menuVRResolutionScaleMultiplier()->set_value(1.0f);
+    if (vrRenderingParamsSetup->menuVRResolutionScaleMultiplier->get_value() == 0.0f) {
+        vrRenderingParamsSetup->menuVRResolutionScaleMultiplier->set_value(1.0f);
     }
 
-    XRSettings::set_eyeTextureResolutionScale(vrRenderingParamsSetup->dyn__vrResolutionScale()->get_value() * (vrRenderingParamsSetup->dyn__sceneType() == GlobalNamespace::VRRenderingParamsSetup::SceneType::Menu ? vrRenderingParamsSetup->dyn__menuVRResolutionScaleMultiplier()->get_value() : 1.0f));
+    XRSettings::set_eyeTextureResolutionScale(vrRenderingParamsSetup->vrResolutionScale->get_value() * (vrRenderingParamsSetup->sceneType == GlobalNamespace::VRRenderingParamsSetup::SceneType::Menu ? vrRenderingParamsSetup->menuVRResolutionScaleMultiplier->get_value() : 1.0f));
 
-    if (vrRenderingParamsSetup->dyn__vrPlatformHelper()->get_vrPlatformSDK() != VRPlatformSDK::Oculus) {
+    if (vrRenderingParamsSetup->vrPlatformHelper->get_vrPlatformSDK() != VRPlatformSDK::Oculus) {
         return;
     }
 
     if (OVRManager::get_fixedFoveatedRenderingSupported()) {
-        OVRManager::set_fixedFoveatedRenderingLevel(!vrRenderingParamsSetup->dyn__useFixedFoveatedRenderingDuringGameplay()->get_value() ||
-            vrRenderingParamsSetup->dyn__sceneType() != GlobalNamespace::VRRenderingParamsSetup::SceneType::Game ? getAnyTweaksConfig().MenuFoveatedRenderingLevel.GetValue() : getAnyTweaksConfig().InGameFoveatedRenderingLevel.GetValue());
+        OVRManager::set_fixedFoveatedRenderingLevel(!vrRenderingParamsSetup->useFixedFoveatedRenderingDuringGameplay->get_value() ||
+            vrRenderingParamsSetup->sceneType != GlobalNamespace::VRRenderingParamsSetup::SceneType::Game ? getAnyTweaksConfig().MenuFoveatedRenderingLevel.GetValue() : getAnyTweaksConfig().InGameFoveatedRenderingLevel.GetValue());
     }
 
     OVRPlugin::SetClientColorDesc(getAnyTweaksConfig().ColorSpace.GetValue());

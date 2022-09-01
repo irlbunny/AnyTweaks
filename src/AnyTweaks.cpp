@@ -1,18 +1,18 @@
 #include "AnyTweaks.hpp"
-#include "ui/ATFlowCoordinator.hpp"
+#include "ui/AnyTweaksFlowCoordinator.hpp"
 
 void AnyTweaks::Install() {
     custom_types::Register::AutoRegister();
     
     QuestUI::Init();
-    QuestUI::Register::RegisterModSettingsFlowCoordinator<AnyTweaks::UI::ATFlowCoordinator*>(modInfo);
+    QuestUI::Register::RegisterModSettingsFlowCoordinator<AnyTweaks::UI::AnyTweaksFlowCoordinator*>(modInfo);
     
     AnyTweaks::Hooks::GameplayCoreInstaller();
+    AnyTweaks::Hooks::LightPairRotationEventEffect();
     AnyTweaks::Hooks::MainEffectController();
     AnyTweaks::Hooks::MainSettingsModelSO();
     AnyTweaks::Hooks::MainSystemInit();
     AnyTweaks::Hooks::Mirror();
-    AnyTweaks::Hooks::NoteDebris();
     AnyTweaks::Hooks::TubeBloomPrePassLight();
     AnyTweaks::Hooks::VRRenderingParamsSetup();
 }
