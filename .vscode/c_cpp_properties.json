@@ -3,7 +3,7 @@
     {
       "defines": [
         "ID=\"AnyTweaks\"",
-        "VERSION=\"5.0.1\"",
+        "VERSION=\"6.1.0\"",
         "__GNUC__",
         "__aarch64__"
       ],

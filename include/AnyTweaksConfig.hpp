@@ -19,6 +19,7 @@ DECLARE_CONFIG(AnyTweaksConfig,
     CONFIG_VALUE(CpuLevel, int, "CpuLevel", 2);
     CONFIG_VALUE(GpuLevel, int, "GpuLevel", 4);
     CONFIG_VALUE(UsedGraphicsPresetBefore, bool, "UsedGraphicsPresetBefore", false);
+    CONFIG_VALUE(SeenNoticeBefore, bool, "SeenNoticeBefore", false);
 
     CONFIG_INIT_FUNCTION(
         CONFIG_INIT_VALUE(Resolution);
@@ -37,5 +38,6 @@ DECLARE_CONFIG(AnyTweaksConfig,
         CONFIG_INIT_VALUE(CpuLevel);
         CONFIG_INIT_VALUE(GpuLevel);
         CONFIG_INIT_VALUE(UsedGraphicsPresetBefore);
+        CONFIG_INIT_VALUE(SeenNoticeBefore);
     )
 )

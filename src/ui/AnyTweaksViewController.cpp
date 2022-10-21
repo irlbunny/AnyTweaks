@@ -6,6 +6,7 @@
 #include "ui/ExperimentalViewController.hpp"
 #include "ui/GraphicsPresetsViewController.hpp"
 #include "ui/GraphicsViewController.hpp"
+#include "ui/NoticeViewController.hpp"
 
 #include "questui/shared/CustomTypes/Components/Backgroundable.hpp"
 
@@ -16,11 +17,25 @@
 #include "UnityEngine/Application.hpp"
 #include "UnityEngine/RectOffset.hpp"
 #include "UnityEngine/UI/ContentSizeFitter.hpp"
+#include "UnityEngine/WaitForSeconds.hpp"
 
 DEFINE_TYPE(AnyTweaks::UI, AnyTweaksViewController);
 
 bool AnyTweaks::UI::AnyTweaksViewController::bDisableGraphicsButton;
 bool AnyTweaks::UI::AnyTweaksViewController::bDisableAdvancedButton;
+
+custom_types::Helpers::Coroutine DelayedNotice(AnyTweaks::UI::AnyTweaksViewController* self, AnyTweaks::UI::NoticeViewController* noticeViewController) {
+    using namespace HMUI;
+    using namespace System::Collections;
+    using namespace UnityEngine;
+
+    co_yield reinterpret_cast<IEnumerator*>(CRASH_UNLESS(WaitForSeconds::New_ctor(.5f)));
+
+    self->flowCoordinator->SetTitle("Notice", ViewController::AnimationType::In);
+    self->flowCoordinator->ReplaceTopViewController(noticeViewController, self->flowCoordinator, self->flowCoordinator, nullptr, ViewController::AnimationType::In, ViewController::AnimationDirection::Horizontal);
+
+    reinterpret_cast<AnyTweaks::UI::AnyTweaksFlowCoordinator*>(self->flowCoordinator)->currentViewController = noticeViewController;
+}
 
 void AnyTweaks::UI::AnyTweaksViewController::DidActivate(
     bool firstActivation,
@@ -40,6 +55,8 @@ void AnyTweaks::UI::AnyTweaksViewController::DidActivate(
         scrollViewLayoutElement->set_preferredWidth(120);
         scrollViewLayoutElement->set_preferredHeight(65);
 
+        AnyTweaks::UI::NoticeViewController* noticeViewController = QuestUI::BeatSaberUI::CreateViewController<AnyTweaks::UI::NoticeViewController*>();
+        CreateUIViewControllerButton(scrollView->get_transform(), "Notice", "AnyTweaks is getting rewritten, please read this!", noticeViewController);
         graphicsPresetsButton = CreateUIViewControllerButton(scrollView->get_transform(), "Graphics Presets", "Various graphics presets, to help you get the most out of AnyTweaks.", QuestUI::BeatSaberUI::CreateViewController<AnyTweaks::UI::GraphicsPresetsViewController*>());
         graphicsButton = CreateUIViewControllerButton(scrollView->get_transform(), "Graphics", "Various graphics tweaks, to help you get PC-like graphics on Quest.", QuestUI::BeatSaberUI::CreateViewController<AnyTweaks::UI::GraphicsViewController*>());
         advancedButton = CreateUIViewControllerButton(scrollView->get_transform(), "Advanced", "Tweaks that you probably shouldn't mess with", QuestUI::BeatSaberUI::CreateViewController<AnyTweaks::UI::AdvancedViewController*>());
@@ -55,6 +72,11 @@ void AnyTweaks::UI::AnyTweaksViewController::DidActivate(
             }
         );
         QuestUI::BeatSaberUI::SetButtonTextSize(donateButton, 3);
+
+        if (!getAnyTweaksConfig().SeenNoticeBefore.GetValue()) {
+            StartCoroutine(custom_types::Helpers::CoroutineHelper::New(DelayedNotice(this, noticeViewController)));
+            getAnyTweaksConfig().SeenNoticeBefore.SetValue(true);
+        }
     }
 
     if (graphicsButton) {
